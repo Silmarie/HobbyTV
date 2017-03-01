@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Popular Movies</string>
+    <string name="most_popular">Most Popular</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="sort">Sort</string>
+    <string name="network_error">Could not reach server</string>
+    <string name="rating_label">Rating:</string>
+    <string name="release_date">Release Date:</string>
 </resources>
