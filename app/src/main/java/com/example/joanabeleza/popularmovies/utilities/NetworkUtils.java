@@ -15,10 +15,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
-/**
- * Created by joanabeleza on 25/02/2017.
- */
-
 public class NetworkUtils {
 
     final static String MOVIE_DB_BASE_URL =
@@ -74,7 +70,7 @@ public class NetworkUtils {
         }
     }
 
-    public static String[] getSimpleMoviesInfoFromJson(Context context, String moviesJsonStr)
+    public static String[] getSimpleMoviesInfoFromJson(String moviesJsonStr)
             throws JSONException {
 
         final String MOVIE_ID = "id";

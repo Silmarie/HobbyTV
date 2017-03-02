@@ -17,11 +17,8 @@ import android.widget.Toast;
 
 import com.example.joanabeleza.popularmovies.utilities.NetworkUtils;
 
-import java.io.IOException;
-import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -141,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                         .getResponseFromHttpUrl(moviesRequestUrl);
 
                 String[] simpleJsonMovieData = NetworkUtils
-                        .getSimpleMoviesInfoFromJson(MainActivity.this, jsonMoviesResponse);
+                        .getSimpleMoviesInfoFromJson(jsonMoviesResponse);
 
                 return simpleJsonMovieData;
 
