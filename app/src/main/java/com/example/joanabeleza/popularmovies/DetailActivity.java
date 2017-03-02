@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.example.joanabeleza.popularmovies.utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
+import java.util.Locale;
+
 public class DetailActivity extends AppCompatActivity {
 
     private TextView mMovieTitle;
@@ -41,14 +43,14 @@ public class DetailActivity extends AppCompatActivity {
 
         if (intent.hasExtra("Movie")) {
 
-            Movie movie = (Movie) intent.getSerializableExtra("Movie");
+            Movie movie = (Movie) intent.getParcelableExtra("Movie");
 
             mMovieTitle.setText(movie.getTitle());
 
-            mMovieRating.setText(movie.getVote_average().toString());
+            mMovieRating.setText(String.format(Locale.US, "%s", movie.getVote_average()));
 
             mMovieReleaseDate.setText(movie.getRelease_date());
-            
+
             mMovieOverview.setText(movie.getOverview());
 
             Uri imageUri = NetworkUtils.buildImageUri(movie.getImagePath());

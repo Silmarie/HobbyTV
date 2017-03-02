@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     private GridView moviesGrid;
 
-    public ArrayList<Movie> moviesList = new ArrayList<>();
+    public ArrayList<Movie> moviesList;
 
     private ProgressBar mLoadingIndicator;
 
@@ -39,18 +39,26 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+
 
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
         mErrorMessage = (TextView) findViewById(R.id.error_message);
 
+        if(savedInstanceState == null || !savedInstanceState.containsKey("movies")) {
+            moviesList = new ArrayList<>();
+            loadMoviesData("popular");
+        }
+        else {
+            moviesList = savedInstanceState.getParcelableArrayList("movies");
+        }
+
         moviesAdapter = new MoviesAdapter(this, moviesList);
 
         moviesGrid = (GridView) findViewById(R.id.grid_movies);
         moviesGrid.setAdapter(moviesAdapter);
-
-        loadMoviesData("popular");
 
         moviesGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
@@ -69,6 +77,13 @@ public class MainActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
             }
         });
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList("movies", moviesList);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -118,8 +133,8 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
 
-            String location = params[0];
-            URL moviesRequestUrl = NetworkUtils.buildUrl(location);
+            String preference = params[0];
+            URL moviesRequestUrl = NetworkUtils.buildUrl(preference);
 
             try {
                 String jsonMoviesResponse = NetworkUtils

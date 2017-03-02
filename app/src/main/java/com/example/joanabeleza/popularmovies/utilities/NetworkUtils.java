@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -53,13 +52,6 @@ public class NetworkUtils {
         Uri builtUri = Uri.parse(MOVIE_IMAGE_BASE_URL + IMAGE_SIZE + imageUrl).buildUpon()
                 .build();
 
-        /*URL url = null;
-        try {
-            url = new URL(builtUri.toString());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }*/
-
         return builtUri;
     }
 
@@ -85,10 +77,8 @@ public class NetworkUtils {
     public static String[] getSimpleMoviesInfoFromJson(Context context, String moviesJsonStr)
             throws JSONException {
 
-        /* Weather information. Each day's forecast info is an element of the "list" array */
         final String MOVIE_ID = "id";
 
-        /* All temperatures are children of the "temp" object */
         final String MOVIE_IMAGE_PATH = "poster_path";
 
         final String MOVIE_TITLE = "original_title";
@@ -105,12 +95,11 @@ public class NetworkUtils {
 
         final String ERROR_MESSAGE = "status_message";
 
-        /* String array to hold each day's weather String */
         String[] parsedMovieData;
 
         JSONObject movieDBJson = new JSONObject(moviesJsonStr);
 
-        /* Is there an error? */
+        /* Check if HTTP request returned an error in JSON */
         if (movieDBJson.has(ERROR_CODE)) {
             String[] error = new String[2];
             String errorMessage = movieDBJson.getString(ERROR_MESSAGE);
