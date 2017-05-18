@@ -6,4 +6,6 @@
     <string name="network_error">Could not reach server</string>
     <string name="rating_label">Rating:</string>
     <string name="release_date">Release Date:</string>
+    <string name="trailers_label">Trailers:</string>
+    <string name="minutes_label">min</string>
 </resources>

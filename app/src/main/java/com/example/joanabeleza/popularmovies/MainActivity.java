@@ -15,34 +15,34 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.joanabeleza.popularmovies.Adapters.MoviesAdapter;
+import com.example.joanabeleza.popularmovies.Models.Movie;
 import com.example.joanabeleza.popularmovies.utilities.NetworkUtils;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity {
 
-    private GridView moviesGrid;
+    @BindView(R.id.grid_movies) GridView moviesGrid;
+
+    @BindView(R.id.error_message) TextView mErrorMessage;
+
+    @BindView(R.id.pb_loading_indicator) ProgressBar mLoadingIndicator;
 
     public ArrayList<Movie> moviesList;
-
-    private ProgressBar mLoadingIndicator;
-
-    private TextView mErrorMessage;
 
     private MoviesAdapter moviesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
-
-
-        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
-
-        mErrorMessage = (TextView) findViewById(R.id.error_message);
+        ButterKnife.bind(this);
 
         if(savedInstanceState == null || !savedInstanceState.containsKey("movies")) {
             moviesList = new ArrayList<>();
@@ -54,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
 
         moviesAdapter = new MoviesAdapter(this, moviesList);
 
-        moviesGrid = (GridView) findViewById(R.id.grid_movies);
         moviesGrid.setAdapter(moviesAdapter);
+
 
         moviesGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,

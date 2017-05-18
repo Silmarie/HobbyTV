@@ -1,9 +1,7 @@
-package com.example.joanabeleza.popularmovies;
+package com.example.joanabeleza.popularmovies.Models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import java.io.Serializable;
 
 /**
  * Created by joanabeleza on 25/02/2017.
