@@ -4,31 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.joanabeleza.popularmovies.DetailActivity">
 
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/activity_detail"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/activity_detail"
+        <TextView
+            android:id="@+id/movie_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryLight"
+            android:paddingBottom="20dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="20dp"
+            android:textColor="@color/movie_title"
+            android:textSize="15pt" />
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/movie_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryLight"
-                android:paddingBottom="20dp"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp"
-                android:paddingTop="20dp"
-                android:textColor="@color/movie_title"
-                android:textSize="15pt" />
+            android:fillViewport="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -52,40 +53,66 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
-                        android:paddingLeft="10dp">
+                        android:paddingStart="20dp">
 
                         <TextView
                             android:id="@+id/movie_release_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20sp" />
+                            android:textStyle="bold"
+                            android:textSize="40sp" />
 
                         <TextView
                             android:id="@+id/movie_duration"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/minutes_label"
-                            android:textSize="20sp" />
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:textSize="25sp" />
 
                         <TextView
                             android:id="@+id/movie_rating"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="15sp"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
 
+                        <ImageButton
+                            android:id="@+id/favorite_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#0000"
+                            android:layout_gravity="center"
+                            android:onClick="toggleFavorite"
+                            android:paddingTop="20sp"
+                            app:srcCompat="@drawable/star_movie_off" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textAlignment="center"
+                            android:text="@string/toggle_favorite"
+                            android:textSize="15sp"/>
+
                     </LinearLayout>
+
                 </LinearLayout>
 
-                <ScrollView
+                <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                <ScrollView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/movie_overview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp" />
+                        android:textSize="15sp" />
                 </ScrollView>
 
                 <View
@@ -105,8 +132,29 @@
                     android:id="@+id/trailers_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="#c0c0c0" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/reviews_label"
+                        android:textSize="18sp" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/reviews_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
             </LinearLayout>
 
-        </LinearLayout>
-    </ScrollView>
+        </ScrollView>
+    </LinearLayout>
+
 </layout>

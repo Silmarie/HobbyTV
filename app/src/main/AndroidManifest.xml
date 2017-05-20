@@ -18,7 +18,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DetailActivity"></activity>
+        <activity android:name=".DetailActivity">
+
+        </activity>
+
+        <provider
+            android:name="com.example.joanabeleza.popularmovies.Data.MoviesProvider"
+            android:authorities="com.example.joanabeleza.popularmovies"
+            android:exported="false"/>
     </application>
 
 </manifest>

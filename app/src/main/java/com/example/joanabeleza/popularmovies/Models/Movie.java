@@ -9,20 +9,22 @@ import android.os.Parcelable;
 
 public class Movie implements Parcelable {
 
-    private int id;
+    private String id;
     private String title;
     private String imagePath;
     private String overview;
     private Double vote_average;
     private String release_date;
+    //private String runtime;
 
-    public Movie(int id, String title, String imagePath, String overview, Double vote_average, String release_date) {
+    public Movie(String id, String title, String imagePath, String overview, Double vote_average, String release_date/*, String runtime*/) {
         this.id = id;
         this.title = title;
         this.imagePath = imagePath;
         this.overview = overview;
         this.vote_average = vote_average;
         this.release_date = release_date;
+        //this.runtime = runtime;
     }
 
     public String getTitle() {
@@ -33,11 +35,11 @@ public class Movie implements Parcelable {
         this.title = title;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -73,15 +75,24 @@ public class Movie implements Parcelable {
         this.release_date = release_date;
     }
 
+    /*public String getRuntime() {
+        return runtime;
+    }
+
+    public void setRuntime(String runtime) {
+        this.runtime = runtime;
+    }*/
+
     // Parcelling part
     public Movie(Parcel in){
         // the order needs to be the same as in writeToParcel() method
-        this.id = in.readInt();
+        this.id = in.readString();
         this.title = in.readString();
         this.imagePath = in.readString();
         this.overview = in.readString();
         this.vote_average = in.readDouble();
         this.release_date = in.readString();
+        //this.runtime = in.readString();
     }
 
     @Override
@@ -91,12 +102,13 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id);
+        parcel.writeString(id);
         parcel.writeString(title);
         parcel.writeString(imagePath);
         parcel.writeString(overview);
         parcel.writeDouble(vote_average);
         parcel.writeString(release_date);
+        //parcel.writeString(runtime);
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {

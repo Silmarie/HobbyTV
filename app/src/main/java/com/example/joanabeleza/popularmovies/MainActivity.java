@@ -2,9 +2,16 @@ package com.example.joanabeleza.popularmovies;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.AsyncTask;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.joanabeleza.popularmovies.Adapters.MoviesAdapter;
+import com.example.joanabeleza.popularmovies.Adapters.MoviesApiAdapter;
+import com.example.joanabeleza.popularmovies.Data.MoviesContract;
 import com.example.joanabeleza.popularmovies.Models.Movie;
 import com.example.joanabeleza.popularmovies.utilities.NetworkUtils;
 
@@ -26,7 +35,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     @BindView(R.id.grid_movies) GridView moviesGrid;
 
@@ -34,9 +43,16 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.pb_loading_indicator) ProgressBar mLoadingIndicator;
 
-    public ArrayList<Movie> moviesList;
+    public boolean isFavorite = false;
+
+    private ArrayList<Movie> mMoviesList;
+
+    private MoviesApiAdapter moviesApiAdapter;
 
     private MoviesAdapter moviesAdapter;
+    RecyclerView mMoviesRecyclerView;
+
+    private static final int MOVIES_LOADER_ID = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,16 +61,16 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         if(savedInstanceState == null || !savedInstanceState.containsKey("movies")) {
-            moviesList = new ArrayList<>();
+            mMoviesList = new ArrayList<>();
             loadMoviesData("popular");
         }
         else {
-            moviesList = savedInstanceState.getParcelableArrayList("movies");
+            mMoviesList = savedInstanceState.getParcelableArrayList("movies");
         }
 
-        moviesAdapter = new MoviesAdapter(this, moviesList);
+        moviesApiAdapter = new MoviesApiAdapter(this, mMoviesList);
 
-        moviesGrid.setAdapter(moviesAdapter);
+        moviesGrid.setAdapter(moviesApiAdapter);
 
 
         moviesGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -66,20 +82,27 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent showMovieDetailIntent = new Intent(context, destinationActivity);
 
-                showMovieDetailIntent.putExtra("Movie", moviesList.get(position));
+                showMovieDetailIntent.putExtra("Movie", mMoviesList.get(position));
 
                 startActivity(showMovieDetailIntent);
 
-                Toast.makeText(MainActivity.this, moviesList.get(position).getTitle(),
+                Toast.makeText(MainActivity.this, mMoviesList.get(position).getTitle(),
                         Toast.LENGTH_SHORT).show();
             }
         });
 
+       /* mMoviesRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_movies);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        mMoviesRecyclerView.setLayoutManager(layoutManager);
+        // Set the layout for the RecyclerView to be a linear layout, which measures and
+        // positions items within a RecyclerView into a linear list
+        moviesAdapter = new MoviesAdapter(getApplicationContext(), mMoviesList);
+        mMoviesRecyclerView.setAdapter(moviesAdapter);*/
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putParcelableArrayList("movies", moviesList);
+        outState.putParcelableArrayList("movies", mMoviesList);
         super.onSaveInstanceState(outState);
     }
 
@@ -92,17 +115,28 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int clickedItem = item.getItemId();
+
         if (clickedItem == R.id.popular) {
-            moviesList.clear();
+            isFavorite = false;
+            mMoviesList.clear();
             loadMoviesData("popular");
             Toast.makeText(MainActivity.this, "Most Popular Movies",
                     Toast.LENGTH_LONG).show();
             return true;
         }
         if (clickedItem == R.id.top_rated) {
-            moviesList.clear();
+            isFavorite = false;
+            mMoviesList.clear();
             loadMoviesData("top_rated");
             Toast.makeText(MainActivity.this, "Top Rated Movies",
+                    Toast.LENGTH_LONG).show();
+            return true;
+        }
+        if (clickedItem == R.id.favorites) {
+            mMoviesList.clear();
+            isFavorite = true;
+            getSupportLoaderManager().initLoader(MOVIES_LOADER_ID, null, this);
+            Toast.makeText(MainActivity.this, "Favorite Movies",
                     Toast.LENGTH_LONG).show();
             return true;
         }
@@ -162,16 +196,87 @@ public class MainActivity extends AppCompatActivity {
                 for (String movieString : moviesData) {
                     movieInfo = movieString.split("__");
                     Log.v("movie string", movieString);
-                    Movie movie = new Movie(Integer.parseInt(movieInfo[0]), movieInfo[1], movieInfo[2],
+                    Movie movie = new Movie(movieInfo[0], movieInfo[1], movieInfo[2],
                             movieInfo[3], Double.parseDouble(movieInfo[4]), movieInfo[5]);
-                    moviesList.add(movie);
-                    moviesAdapter.notifyDataSetChanged();
+                    mMoviesList.add(movie);
+                    moviesApiAdapter.notifyDataSetChanged();
                 }
+               // moviesAdapter.update(mMoviesList);
             } else {
                 mErrorMessage.setText(R.string.network_error);
                 mErrorMessage.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (isFavorite) {
+            getSupportLoaderManager().restartLoader(MOVIES_LOADER_ID, null, this);
+        }
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, final Bundle loaderArgs) {
+
+        return new AsyncTaskLoader<Cursor>(this) {
+
+            // Initialize a Cursor, this will hold all the task data
+            Cursor mTaskData = null;
+
+            // onStartLoading() is called when a loader first starts loading data
+            @Override
+            protected void onStartLoading() {
+                if (mTaskData != null) {
+                    // Delivers any previously loaded data immediately
+                    deliverResult(mTaskData);
+                } else {
+                    // Force a new load
+                    forceLoad();
+                }
+            }
+
+            // loadInBackground() performs asynchronous loading of data
+            @Override
+            public Cursor loadInBackground() {
+                // Will implement to load data
+
+                // Query and load all task data in the background; sort by priority
+                // [Hint] use a try/catch block to catch any errors in loading data
+
+                try {
+                    return getContentResolver().query(MoviesContract.MoviesEntry.CONTENT_URI,
+                            null,
+                            null,
+                            null,
+                            MoviesContract.MoviesEntry._ID);
+
+                } catch (Exception e) {
+                    Log.e("Message", "Failed to asynchronously load data.");
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+
+            // deliverResult sends the result of the load, a Cursor, to the registered listener
+            public void deliverResult(Cursor data) {
+                mTaskData = data;
+                super.deliverResult(data);
+            }
+        };
+
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        moviesApiAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        moviesAdapter.swapCursor(null);
     }
 
 }

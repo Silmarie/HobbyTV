@@ -26,4 +26,5 @@
         android:gravity="center"
         android:numColumns="auto_fit"
         android:stretchMode="columnWidth" />
+
 </RelativeLayout>

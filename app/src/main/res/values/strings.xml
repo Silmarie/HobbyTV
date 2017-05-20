@@ -8,4 +8,7 @@
     <string name="release_date">Release Date:</string>
     <string name="trailers_label">Trailers:</string>
     <string name="minutes_label">min</string>
+    <string name="reviews_label">Reviews:</string>
+    <string name="favorites">Favorite Movies</string>
+    <string name="toggle_favorite">Toggle Favorite</string>
 </resources>

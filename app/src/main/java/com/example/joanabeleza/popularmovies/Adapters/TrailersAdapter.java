@@ -1,6 +1,8 @@
 package com.example.joanabeleza.popularmovies.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +11,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.joanabeleza.popularmovies.R;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +25,7 @@ import java.util.List;
 
 public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.MyViewHolder> {
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView trailerLabel;
         public ImageButton playButton;
 
@@ -30,19 +34,26 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.MyView
 
             trailerLabel = (TextView) view.findViewById(R.id.trailer_label);
             playButton = (ImageButton) view.findViewById(R.id.play_trailer_button);
+
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+
         }
     }
 
     private List<String> mTrailersUrl;
-    private Context mContext;
 
-    public TrailersAdapter(Context context, List<String> trailersUrl) {
-        mTrailersUrl = trailersUrl;
-        mContext = context;
+    public TrailersAdapter(List<String> trailersUrl) {
+        this.mTrailersUrl = trailersUrl;
     }
 
-    private Context getContext() {
-        return mContext;
+    public void update(List<String> data) {
+        this.mTrailersUrl.clear();
+        this.mTrailersUrl.addAll(data);
+        this.notifyDataSetChanged();
     }
 
     @Override
@@ -56,13 +67,27 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.MyView
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        String trailer = mTrailersUrl.get(position);
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
+        final String trailer = mTrailersUrl.get(position);
 
         TextView trailerLabelView = holder.trailerLabel;
-        trailerLabelView.setText("Trailer " + position + 1);
+        trailerLabelView.setText("Trailer " + (position + 1));
         ImageButton playImageButton = holder.playButton;
         playImageButton.setColorFilter(R.color.colorPrimary);
+
+        playImageButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Context context = holder.itemView.getContext();
+
+                Intent yt_play = new Intent(Intent.ACTION_VIEW, Uri.parse(trailer));
+                Intent chooser = Intent.createChooser(yt_play , "Open With");
+
+                if (yt_play .resolveActivity(context.getPackageManager()) != null) {
+                    context.startActivity(chooser);
+                }
+            }
+        });
     }
 
 
