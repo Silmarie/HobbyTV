@@ -73,8 +73,6 @@ public class MoviesDbHelper extends SQLiteOpenHelper {
     public int delete(String id) {
         openDatabase();
 
-        String query = ("SELECT * FROM movies");
-
         int deletes = mDatabase.delete(MoviesContract.MoviesEntry.TABLE_NAME, MoviesContract.MoviesEntry.COLUMN_MOVIE_ID + "=" + id, null);
 
         closeDatabase();

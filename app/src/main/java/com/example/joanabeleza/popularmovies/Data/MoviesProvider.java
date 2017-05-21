@@ -15,16 +15,7 @@ import static com.example.joanabeleza.popularmovies.Data.MoviesContract.MoviesEn
 /**
  * Created by joanabeleza on 20/05/2017.
  */
-/**
- * This class serves as the ContentProvider for all of Sunshine's data. This class allows us to
- * bulkInsert data, query data, and delete data.
- * <p>
- * Although ContentProvider implementation requires the implementation of additional methods to
- * perform single inserts, updates, and the ability to get the type of the data from a URI.
- * However, here, they are not implemented for the sake of brevity and simplicity. If you would
- * like, you may implement them on your own. However, we are not going to be teaching how to do
- * so in this course.
- */
+
 public class MoviesProvider extends ContentProvider {
 
     /*

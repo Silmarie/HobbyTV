@@ -26,6 +26,7 @@
             android:name="com.example.joanabeleza.popularmovies.Data.MoviesProvider"
             android:authorities="com.example.joanabeleza.popularmovies"
             android:exported="false"/>
+
     </application>
 
 </manifest>

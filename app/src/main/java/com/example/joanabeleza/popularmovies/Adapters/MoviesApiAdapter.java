@@ -29,8 +29,6 @@ import java.util.ArrayList;
 
 public class MoviesApiAdapter extends ArrayAdapter<Movie> {
 
-    private static final String LOG_TAG = MoviesApiAdapter.class.getSimpleName();
-
     private ArrayList<Movie> moviesArray = new ArrayList<>();
 
     public MoviesApiAdapter(Activity context, ArrayList<Movie> movies) {
@@ -54,15 +52,13 @@ public class MoviesApiAdapter extends ArrayAdapter<Movie> {
             imageView = (ImageView) convertView;
         }
 
-        String imagePath = moviesArray.get(position).getImagePath();
-
         Uri imageUri = NetworkUtils.buildImageUri(moviesArray.get(position).getImagePath());
 
-        BitmapDrawable imageWithText =  writeOnDrawable(R.drawable.launcher_icon, moviesArray.get(position).getTitle());
+        BitmapDrawable imageWithText =  writeOnDrawable(R.drawable.ic_launcher, moviesArray.get(position).getTitle());
 
         Picasso.with(getContext())
                 .load(imageUri)
-                .placeholder(R.drawable.launcher_icon)
+                .placeholder(R.drawable.ic_launcher)
                 .error(imageWithText)
                 .into(imageView);
 
@@ -72,7 +68,6 @@ public class MoviesApiAdapter extends ArrayAdapter<Movie> {
     public void swapCursor(Cursor cursor) {
         moviesArray.clear();
         if (cursor != null && cursor.moveToFirst()) {
-            //get columns
             int idIndex = cursor.getColumnIndex(MoviesContract.MoviesEntry.COLUMN_MOVIE_ID);
             int imagePathIndex = cursor.getColumnIndex(MoviesContract.MoviesEntry.COLUMN_IMAGE_PATH);
             int movieTitleIndex = cursor.getColumnIndex(MoviesContract.MoviesEntry.COLUMN_TITLE);
@@ -81,7 +76,6 @@ public class MoviesApiAdapter extends ArrayAdapter<Movie> {
             int movieYearIndex = cursor.getColumnIndex(MoviesContract.MoviesEntry.COLUMN_YEAR);
             //int movieRuntimeIndex = cursor.getColumnIndex(MoviesContract.MoviesEntry.COLUMN_RUNTIME);
 
-            //add row to list
             do {
                 String id = cursor.getString(idIndex);
                 String imagePath = cursor.getString(imagePathIndex);

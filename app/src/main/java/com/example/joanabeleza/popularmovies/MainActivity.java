@@ -4,14 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,7 +19,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.joanabeleza.popularmovies.Adapters.MoviesAdapter;
 import com.example.joanabeleza.popularmovies.Adapters.MoviesApiAdapter;
 import com.example.joanabeleza.popularmovies.Data.MoviesContract;
 import com.example.joanabeleza.popularmovies.Models.Movie;
@@ -48,9 +44,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private ArrayList<Movie> mMoviesList;
 
     private MoviesApiAdapter moviesApiAdapter;
-
-    private MoviesAdapter moviesAdapter;
-    RecyclerView mMoviesRecyclerView;
 
     private static final int MOVIES_LOADER_ID = 0;
 
@@ -90,14 +83,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                         Toast.LENGTH_SHORT).show();
             }
         });
-
-       /* mMoviesRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_movies);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        mMoviesRecyclerView.setLayoutManager(layoutManager);
-        // Set the layout for the RecyclerView to be a linear layout, which measures and
-        // positions items within a RecyclerView into a linear list
-        moviesAdapter = new MoviesAdapter(getApplicationContext(), mMoviesList);
-        mMoviesRecyclerView.setAdapter(moviesAdapter);*/
     }
 
     @Override
@@ -201,7 +186,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     mMoviesList.add(movie);
                     moviesApiAdapter.notifyDataSetChanged();
                 }
-               // moviesAdapter.update(mMoviesList);
             } else {
                 mErrorMessage.setText(R.string.network_error);
                 mErrorMessage.setVisibility(View.VISIBLE);
@@ -223,28 +207,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         return new AsyncTaskLoader<Cursor>(this) {
 
-            // Initialize a Cursor, this will hold all the task data
             Cursor mTaskData = null;
 
-            // onStartLoading() is called when a loader first starts loading data
             @Override
             protected void onStartLoading() {
                 if (mTaskData != null) {
-                    // Delivers any previously loaded data immediately
                     deliverResult(mTaskData);
                 } else {
-                    // Force a new load
                     forceLoad();
                 }
             }
 
-            // loadInBackground() performs asynchronous loading of data
             @Override
             public Cursor loadInBackground() {
-                // Will implement to load data
-
-                // Query and load all task data in the background; sort by priority
-                // [Hint] use a try/catch block to catch any errors in loading data
 
                 try {
                     return getContentResolver().query(MoviesContract.MoviesEntry.CONTENT_URI,
@@ -260,7 +235,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 }
             }
 
-            // deliverResult sends the result of the load, a Cursor, to the registered listener
             public void deliverResult(Cursor data) {
                 mTaskData = data;
                 super.deliverResult(data);
@@ -276,7 +250,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        moviesAdapter.swapCursor(null);
+        moviesApiAdapter.swapCursor(null);
     }
 
 }
