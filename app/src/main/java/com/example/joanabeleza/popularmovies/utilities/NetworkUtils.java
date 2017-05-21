@@ -13,8 +13,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
-import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -37,7 +35,7 @@ public class NetworkUtils {
 
     final static String API_QUERY = "api_key";
 
-    final static String API_KEY = "";
+    final static String API_KEY = "5f30bcdf95c0ef1c4a468ebb239868c3";
 
     public static URL buildUrl(String movieSearchQuery) {
         Uri builtUri = Uri.parse(MOVIE_DB_BASE_URL + movieSearchQuery).buildUpon()
