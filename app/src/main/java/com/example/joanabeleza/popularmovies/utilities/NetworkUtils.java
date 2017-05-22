@@ -33,7 +33,7 @@ public class NetworkUtils {
 
     final static String API_QUERY = "api_key";
 
-    final static String API_KEY = "5f30bcdf95c0ef1c4a468ebb239868c3";
+    final static String API_KEY = "";
 
     public static URL buildUrl(String movieSearchQuery) {
         Uri builtUri = Uri.parse(MOVIE_DB_BASE_URL + movieSearchQuery).buildUpon()
