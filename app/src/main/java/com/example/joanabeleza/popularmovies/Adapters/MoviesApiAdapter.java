@@ -74,7 +74,6 @@ public class MoviesApiAdapter extends ArrayAdapter<Movie> {
             int movieOverviewIndex = cursor.getColumnIndex(MoviesContract.MoviesEntry.COLUMN_OVERVIEW);
             int movieRatingIndex = cursor.getColumnIndex(MoviesContract.MoviesEntry.COLUMN_RATING);
             int movieYearIndex = cursor.getColumnIndex(MoviesContract.MoviesEntry.COLUMN_YEAR);
-            //int movieRuntimeIndex = cursor.getColumnIndex(MoviesContract.MoviesEntry.COLUMN_RUNTIME);
 
             do {
                 String id = cursor.getString(idIndex);
@@ -83,8 +82,8 @@ public class MoviesApiAdapter extends ArrayAdapter<Movie> {
                 String movieOverview = cursor.getString(movieOverviewIndex);
                 Double movieRating = cursor.getDouble(movieRatingIndex);
                 String movieYear = cursor.getString(movieYearIndex);
-                //String movieRuntime = cursor.getString(movieRuntimeIndex);
-                moviesArray.add(new Movie(id, movieTitle, imagePath, movieOverview, movieRating, movieYear/*, movieRuntime*/));
+
+                moviesArray.add(new Movie(id, movieTitle, imagePath, movieOverview, movieRating, movieYear));
             }
             while (cursor.moveToNext());
         }

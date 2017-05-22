@@ -1,10 +1,8 @@
 package com.example.joanabeleza.popularmovies.utilities;
 
-import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
-import com.example.joanabeleza.popularmovies.DetailActivity;
 import com.example.joanabeleza.popularmovies.Models.Review;
 
 import org.json.JSONArray;
@@ -35,7 +33,7 @@ public class NetworkUtils {
 
     final static String API_QUERY = "api_key";
 
-    final static String API_KEY = "";
+    final static String API_KEY = "5f30bcdf95c0ef1c4a468ebb239868c3";
 
     public static URL buildUrl(String movieSearchQuery) {
         Uri builtUri = Uri.parse(MOVIE_DB_BASE_URL + movieSearchQuery).buildUpon()
@@ -152,15 +150,11 @@ public class NetworkUtils {
     public static String getMovieDetails(String movieDetailsJsonStr) throws JSONException {
         final String MOVIE_RUNTIME = "runtime";
 
-        final String RESULTS = "results";
-
         final String ERROR_CODE = "status_code";
 
         final String ERROR_MESSAGE = "status_message";
 
         JSONObject movieDBJson = new JSONObject(movieDetailsJsonStr);
-
-        String result = null;
 
         /* Check if HTTP request returned an error in JSON */
         if (movieDBJson.has(ERROR_CODE)) {
@@ -171,15 +165,10 @@ public class NetworkUtils {
             error[1] = errorMessage;
             Log.d("ERROR", errorMessage);
 
-            result = error.toString();
+            return Arrays.toString(error);
         }
 
-        //JSONArray movieArray = movieDBJson.getJSONArray(RESULTS);
-
-            result = movieDBJson.getString(MOVIE_RUNTIME);
-
-
-        return result;
+        return movieDBJson.getString(MOVIE_RUNTIME);
     }
 
     public static ArrayList<String> getMovieTrailers(String movieTrailersJsonStr) throws JSONException {

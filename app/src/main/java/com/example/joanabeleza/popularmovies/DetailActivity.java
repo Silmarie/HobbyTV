@@ -71,7 +71,7 @@ public class DetailActivity extends AppCompatActivity {
 
             mOpenHelper = new MoviesDbHelper(this);
 
-            movie = (Movie) intent.getParcelableExtra("Movie");
+            movie = intent.getParcelableExtra("Movie");
 
             isFavorite = checkIfFavorite();
 
