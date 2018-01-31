@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/movie_title"
+            android:id="@+id/movie_title2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryLight"
@@ -58,14 +58,14 @@
                         android:paddingStart="16dp">
 
                         <TextView
-                            android:id="@+id/movie_release_date"
+                            android:id="@+id/movie_release_date2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="40sp"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/movie_duration"
+                            android:id="@+id/movie_duration2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingBottom="5dp"
@@ -73,14 +73,14 @@
                             android:textSize="30sp" />
 
                         <TextView
-                            android:id="@+id/movie_rating"
+                            android:id="@+id/movie_rating2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="30sp"
                             android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/movie_overview"
+                                android:id="@+id/movie_overview2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="15sp" />

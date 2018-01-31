@@ -18,15 +18,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DetailActivity">
-
-        </activity>
+        <activity android:name=".DetailActivity"></activity>
 
         <provider
-            android:name="com.example.joanabeleza.popularmovies.Data.MoviesProvider"
+            android:name=".Data.MoviesProvider"
             android:authorities="com.example.joanabeleza.popularmovies"
-            android:exported="false"/>
+            android:exported="false" />
 
+        <activity
+            android:name=".MovieDetailActivity"
+            android:label="@string/title_activity_movie_detail"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.joanabeleza.popularmovies.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -71,7 +71,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                                     int position, long id) {
 
                 Context context = MainActivity.this;
-                Class destinationActivity = DetailActivity.class;
+                //Class destinationActivity = DetailActivity.class;
+                Class destinationActivity = MovieDetailActivity.class;
 
                 Intent showMovieDetailIntent = new Intent(context, destinationActivity);
 
@@ -182,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     movieInfo = movieString.split("__");
                     Log.v("movie string", movieString);
                     Movie movie = new Movie(movieInfo[0], movieInfo[1], movieInfo[2],
-                            movieInfo[3], Double.parseDouble(movieInfo[4]), movieInfo[5]);
+                            movieInfo[3], Double.parseDouble(movieInfo[4]), movieInfo[5], 0, movieInfo[6], null, null);
                     mMoviesList.add(movie);
                     moviesApiAdapter.notifyDataSetChanged();
                 }

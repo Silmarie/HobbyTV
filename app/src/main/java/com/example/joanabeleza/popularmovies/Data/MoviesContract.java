@@ -30,7 +30,8 @@ public class MoviesContract {
 
         public static final String COLUMN_YEAR = "year";
         public static final String COLUMN_RATING = "rating";
-        //public static final String COLUMN_RUNTIME = "runtime";
+        public static final String COLUMN_GENRES = "genres";
+        public static final String COLUMN_RUNTIME = "runtime";
         public static final String COLUMN_TITLE = "title";
         public static final String COLUMN_OVERVIEW = "overview";
         public static final String COLUMN_IMAGE_PATH = "image_path";

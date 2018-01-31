@@ -1,0 +1,138 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_movie_details"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.joanabeleza.popularmovies.Fragments.MovieDetailsFragment">
+
+    <TextView
+        android:id="@+id/movie_genres"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingEnd="32dp"
+        android:paddingStart="8dp"
+        android:contentDescription="Movie Genres"
+        tools:text="Genres"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textColor="@color/movie_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/movie_poster"
+        app:layout_constraintBottom_toTopOf="@id/movie_release_date"/>
+
+    <ImageView
+        android:id="@+id/movie_poster"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline_middle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/movie_release_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#8000"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:textColor="@color/movie_title"
+        android:tooltipText="Movie Title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/movie_poster"
+        tools:text="Year" />
+
+    <TextView
+        android:id="@+id/movie_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:elevation="2dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        tools:text="Duration"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:textColor="@color/movie_title"
+        app:layout_constraintBottom_toBottomOf="@+id/movie_release_date"
+        app:layout_constraintEnd_toEndOf="@id/movie_rating"
+        app:layout_constraintStart_toStartOf="@id/movie_release_date"
+        app:layout_constraintTop_toTopOf="@+id/movie_release_date" />
+
+    <TextView
+        android:id="@+id/movie_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:elevation="2dp"
+        tools:text="Rating"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:textColor="@color/movie_title"
+        app:layout_constraintBottom_toBottomOf="@+id/movie_release_date"
+        app:layout_constraintEnd_toEndOf="@id/fab_toggle_favorite"
+        app:layout_constraintStart_toStartOf="@id/movie_duration"
+        app:layout_constraintTop_toTopOf="@+id/movie_release_date" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_toggle_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:backgroundTint="@android:color/holo_red_dark"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toTopOf="@+id/movie_release_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.972"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/movie_release_date"
+        app:rippleColor="@android:color/holo_red_light"
+        app:srcCompat="@drawable/ic_star_full_24dp" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:requiresFadingEdge="vertical"
+        android:fadeScrollbars="true"
+        app:layout_constraintBottom_toTopOf="@id/movie_genres"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline_middle"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/movie_overview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="Movie Overview"
+            tools:text="Overview"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guideline" />
+    </ScrollView>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_middle"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25"/>
+
+</android.support.constraint.ConstraintLayout>

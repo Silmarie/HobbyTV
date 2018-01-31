@@ -1,6 +1,7 @@
 package com.example.joanabeleza.popularmovies.utilities;
 
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.joanabeleza.popularmovies.Models.Review;
@@ -17,17 +18,23 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.stream.IntStream;
+
+import static java.util.Arrays.asList;
 
 public class NetworkUtils {
 
     final static String MOVIE_DB_BASE_URL =
-            "http://api.themoviedb.org/3/movie/";
+            "https://api.themoviedb.org/3/movie/";
+
+    final static String MOVIE_DB_GENRES_BASE_URL =
+            "https://api.themoviedb.org/3/genre/movie/list";
 
     final static String MOVIE_IMAGE_BASE_URL =
-            "http://image.tmdb.org/t/p/";
+            "https://image.tmdb.org/t/p/";
 
     final static String MOVIE_REVIEW_URL =
-            "http://image.tmdb.org/t/p/";
+            "https://image.tmdb.org/t/p/";
 
     final static String IMAGE_SIZE = "w185";
 
@@ -37,6 +44,20 @@ public class NetworkUtils {
 
     public static URL buildUrl(String movieSearchQuery) {
         Uri builtUri = Uri.parse(MOVIE_DB_BASE_URL + movieSearchQuery).buildUpon()
+                .appendQueryParameter(API_QUERY, API_KEY)
+                .build();
+
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        return url;
+    }
+    public static URL buildGenresUrl() {
+        Uri builtUri = Uri.parse(MOVIE_DB_GENRES_BASE_URL).buildUpon()
                 .appendQueryParameter(API_QUERY, API_KEY)
                 .build();
 
@@ -97,7 +118,11 @@ public class NetworkUtils {
 
         final String MOVIE_RUNTIME = "runtime";
 
+        final String MOVIE_GENRES = "genre_ids";
+
         final String RESULTS = "results";
+
+        final String GENRES_RESULTS = "genres";
 
         final String ERROR_CODE = "status_code";
 
@@ -130,6 +155,7 @@ public class NetworkUtils {
             String overview;
             Double vote_average;
             String release_date;
+            JSONArray genres;
 
             /* Get the JSON object representing the movie */
             JSONObject movieObject = movieArray.getJSONObject(i);
@@ -140,12 +166,55 @@ public class NetworkUtils {
             overview = movieObject.getString(MOVIE_PLOT_SYNOPSIS);
             vote_average = movieObject.getDouble(MOVIE_USER_RATING);
             release_date = movieObject.getString(MOVIE_RELEASE_DATE);
+            genres = movieObject.getJSONArray(MOVIE_GENRES);
 
-            parsedMovieData[i] = id + "__" + title + "__" + imageUrl + "__" + overview + "__" + vote_average + "__" + release_date;
+
+            URL genresRequestUrl = NetworkUtils.buildGenresUrl();
+
+            String jsonMovieGenresResponse = null;
+
+            try {
+                jsonMovieGenresResponse = NetworkUtils
+                        .getResponseFromHttpUrl(genresRequestUrl);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            String parsedMovieGenresData;
+
+            JSONObject movieGenresDBJson = new JSONObject(jsonMovieGenresResponse);
+
+            JSONArray movieGenresArray = movieGenresDBJson.getJSONArray(GENRES_RESULTS);
+
+            parsedMovieGenresData = getGenresName(movieGenresArray, genres);
+
+            parsedMovieData[i] = id + "__" + title + "__" + imageUrl + "__" + overview + "__" + vote_average + "__" + release_date + "__" + parsedMovieGenresData;
         }
 
         return parsedMovieData;
     }
+
+    private static String getGenresName(JSONArray movieGenresArray, JSONArray genres) {
+        String[] result = new String[genres.length()];
+        for (int i = 0; i < genres.length(); i++) {
+            for (int j = 0; j < movieGenresArray.length(); j++) {
+
+                try {
+                    JSONObject genreToCompareObject = movieGenresArray.getJSONObject(j);
+                    int genreId = genres.optInt(i);
+
+                    if (genreToCompareObject.getInt("id") == genreId) {
+                        result[i] = genreToCompareObject.getString("name");
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return TextUtils.join(", ", result);
+    }
+
 
     public static String getMovieDetails(String movieDetailsJsonStr) throws JSONException {
         final String MOVIE_RUNTIME = "runtime";
@@ -195,7 +264,7 @@ public class NetworkUtils {
             error[1] = errorMessage;
             Log.d("ERROR", errorMessage);
 
-            return new ArrayList<>(Arrays.asList(error));
+            return new ArrayList<>(asList(error));
         }
 
         JSONArray movieArray = movieDBJson.getJSONArray(RESULTS);
@@ -244,7 +313,7 @@ public class NetworkUtils {
             error[1] = errorMessage;
             Log.d("ERROR", errorMessage);
 
-            return new ArrayList<>(Arrays.asList(new Review(error[0], error[1])));
+            return new ArrayList<>(asList(new Review(error[0], error[1])));
         }
 
         JSONArray movieArray = movieDBJson.getJSONArray(RESULTS);

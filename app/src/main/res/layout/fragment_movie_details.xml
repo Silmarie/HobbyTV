@@ -1,0 +1,143 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_movie_details"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.joanabeleza.popularmovies.Fragments.MovieDetailsFragment"
+    tools:layout_editor_absoluteY="81dp">
+
+
+    <ImageView
+        android:id="@+id/movie_poster"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/movie_release_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#8000"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:text="Year"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:textColor="@color/movie_title"
+        android:tooltipText="Movie Title"
+        app:layout_constraintBottom_toTopOf="@id/guideline2"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/movie_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="Duration"
+        android:elevation="2dp"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:textColor="@color/movie_title"
+        app:layout_constraintBottom_toBottomOf="@+id/movie_release_date"
+        app:layout_constraintTop_toTopOf="@+id/movie_release_date"
+        app:layout_constraintStart_toStartOf="@id/movie_release_date"
+        app:layout_constraintEnd_toEndOf="@id/movie_rating" />
+
+    <TextView
+        android:id="@+id/movie_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Rating"
+        android:elevation="2dp"
+        android:textColor="@color/movie_title"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        app:layout_constraintBottom_toBottomOf="@+id/movie_release_date"
+        app:layout_constraintTop_toTopOf="@+id/movie_release_date"
+        app:layout_constraintStart_toStartOf="@id/movie_duration"
+        app:layout_constraintEnd_toEndOf="@id/fab_toggle_favorite" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.6" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_toggle_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:backgroundTint="@android:color/holo_red_dark"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.972"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline2"
+        app:layout_constraintVertical_bias="0.578"
+        app:rippleColor="@android:color/holo_red_light"
+        app:srcCompat="@drawable/ic_star_full_24dp" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:requiresFadingEdge="vertical"
+        android:fadeScrollbars="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline">
+
+        <TextView
+            android:id="@+id/movie_overview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="Movie Overview"
+            android:text="Overview"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guideline" />
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/movie_genres"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Genres"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingEnd="32dp"
+        android:paddingTop="8dp"
+        android:textColor="@color/movie_title"
+        android:background="@color/colorPrimaryDark"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        app:layout_constraintBottom_toTopOf="@id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline2" />
+
+</android.support.constraint.ConstraintLayout>

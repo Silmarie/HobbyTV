@@ -2,14 +2,11 @@ package com.example.joanabeleza.popularmovies;
 
 import android.content.ContentValues;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -24,12 +21,10 @@ import com.example.joanabeleza.popularmovies.Models.Movie;
 import com.example.joanabeleza.popularmovies.Models.Review;
 import com.example.joanabeleza.popularmovies.databinding.ActivityDetailBinding;
 import com.example.joanabeleza.popularmovies.utilities.NetworkUtils;
-import com.squareup.picasso.Picasso;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -47,7 +42,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private ArrayList<Review> reviewsList = new ArrayList<>();
 
-    private Movie movie;
+    public Movie movie;
 
     private MoviesDbHelper mOpenHelper;
 
@@ -56,18 +51,38 @@ public class DetailActivity extends AppCompatActivity {
     private TextView mMovieDurationTextView;
     private TextView mFavoriteMovieLabel;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        /*setContentView(R.layout.activity_detail);
 
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail);*/
 
         Intent intent = getIntent();
 
         if (intent.hasExtra("Movie")) {
+            //setContentView(R.layout.detail_activity);
 
-            favoriteButton = (ImageButton) findViewById(R.id.favorite_button);
+            //setViewPager();
+            //mBinding = DataBindingUtil.setContentView(this, R.layout.fragment_movie_details);
+
+            mOpenHelper = new MoviesDbHelper(this);
+
+            movie = intent.getParcelableExtra("Movie");
+
+            //
+            // mMovieDurationTextView = (TextView) findViewById(R.id.movie_duration);
+
+            loadMoviesDetails(movie.getId());
+
+            //mBinding.movieTitle.setText(movie.getTitle());
+            //mBinding.movieRating.setText(String.format(Locale.US, "%s/%d", movie.getVote_average(), 10));
+            //mBinding.movieReleaseDate.setText(movie.getRelease_date().substring(0, 4));
+            //Uri imageUri = NetworkUtils.buildImageUri(movie.getImagePath());
+            //Picasso.with(this).load(imageUri).into(mBinding.moviePoster);
+
+            /*favoriteButton = (ImageButton) findViewById(R.id.favorite_button);
 
             mOpenHelper = new MoviesDbHelper(this);
 
@@ -96,7 +111,7 @@ public class DetailActivity extends AppCompatActivity {
             rvReviews.setLayoutManager(new LinearLayoutManager(this));
             rvReviews.setAdapter(mReviewsAdapter);
 
-            loadMoviesDetails(movie.getId());
+            loadMoviesDetails(movie.getId());*/
 
         }
     }
@@ -106,13 +121,13 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void displayMovieInfo(Movie movie) {
-        mBinding.movieTitle.setText(movie.getTitle());
+        /*mBinding.movieTitle.setText(movie.getTitle());
         mBinding.movieRating.setText(String.format(Locale.US, "%s/%d", movie.getVote_average(), 10));
         mBinding.movieReleaseDate.setText(movie.getRelease_date().substring(0, 4));
         mBinding.movieOverview.setText(movie.getOverview());
         mBinding.movieOverview.setMovementMethod(new ScrollingMovementMethod());
         Uri imageUri = NetworkUtils.buildImageUri(movie.getImagePath());
-        Picasso.with(this).load(imageUri).into(mBinding.moviePoster);
+        Picasso.with(this).load(imageUri).into(mBinding.moviePoster);*/
     }
 
     public void toggleFavorite(View view) {
@@ -187,13 +202,14 @@ public class DetailActivity extends AppCompatActivity {
                 String jsonResponse[] = moviesData.split("__");
 
                 String movieDuration = NetworkUtils.getMovieDetails(jsonResponse[0]);
-                mMovieDurationTextView.setText(String.format("%s %s", movieDuration, getString(R.string.minutes_label)));
 
-                trailersList = NetworkUtils.getMovieTrailers(jsonResponse[1]);
+                //mMovieDurationTextView.setText(String.format("%s %s", movieDuration, getString(R.string.minutes_label)));
+
+               /* trailersList = NetworkUtils.getMovieTrailers(jsonResponse[1]);
                 trailersAdapter.update(trailersList);
 
                 reviewsList = NetworkUtils.getMovieReviews(jsonResponse[2]);
-                mReviewsAdapter.update(reviewsList);
+                mReviewsAdapter.update(reviewsList);*/
             } catch (Exception ex) {
                 Log.e("EXCEPTION", ex.getMessage());
             }
