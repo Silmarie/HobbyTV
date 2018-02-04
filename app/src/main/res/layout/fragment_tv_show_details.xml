@@ -4,12 +4,12 @@
     android:id="@+id/fragment_movie_details"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.joanabeleza.hobbytv.Fragments.Movies.MovieDetailsFragment"
+    tools:context="com.example.joanabeleza.hobbytv.Fragments.TvShows.TvShowDetailsFragment"
     tools:layout_editor_absoluteY="81dp">
 
 
     <ImageView
-        android:id="@+id/movie_poster"
+        android:id="@+id/tv_show_poster"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:adjustViewBounds="true"
@@ -19,10 +19,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher"
-        android:contentDescription="@string/movie_poster_image_description" />
+        android:contentDescription="@string/tv_show_poster_image_description" />
 
     <TextView
-        android:id="@+id/movie_release_date"
+        android:id="@+id/tv_show_release_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#8000"
@@ -34,38 +34,40 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/movie_duration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        tools:text="Duration"
-        android:elevation="2dp"
-        android:textAppearance="@android:style/TextAppearance.Material.Large"
-        android:textColor="@color/movie_details"
-        app:layout_constraintBottom_toBottomOf="@+id/movie_release_date"
-        app:layout_constraintTop_toTopOf="@+id/movie_release_date"
-        app:layout_constraintStart_toStartOf="@id/movie_release_date"
-        app:layout_constraintEnd_toEndOf="@id/movie_rating" />
-
-    <TextView
-        android:id="@+id/movie_rating"
+        android:id="@+id/tv_show_season_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        tools:text="Rating"
         android:elevation="2dp"
-        android:textColor="@color/movie_details"
-        android:textAppearance="@android:style/TextAppearance.Material.Large"
-        app:layout_constraintBottom_toBottomOf="@+id/movie_release_date"
-        app:layout_constraintTop_toTopOf="@+id/movie_release_date"
-        app:layout_constraintStart_toStartOf="@id/movie_duration"
-        app:layout_constraintEnd_toEndOf="@id/fab_toggle_favorite" />
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:textAppearance="@android:style/TextAppearance.Material.Small"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_show_release_date"
+        app:layout_constraintEnd_toStartOf="@+id/fab_toggle_favorite"
+        app:layout_constraintStart_toEndOf="@+id/tv_show_rating"
+        app:layout_constraintTop_toTopOf="@+id/tv_show_release_date"
+        tools:text="Number" />
+
+    <TextView
+        android:id="@+id/tv_show_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:elevation="2dp"
+        tools:text="Rating"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_show_release_date"
+        app:layout_constraintEnd_toStartOf="@+id/fab_toggle_favorite"
+        app:layout_constraintStart_toStartOf="@+id/tv_show_release_date"
+        app:layout_constraintTop_toTopOf="@+id/tv_show_release_date" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline2"
@@ -113,7 +115,7 @@
         app:layout_constraintTop_toBottomOf="@id/guideline">
 
         <TextView
-            android:id="@+id/movie_overview"
+            android:id="@+id/tv_show_overview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:contentDescription="@string/movie_overview_description"
@@ -125,7 +127,7 @@
     </ScrollView>
 
     <TextView
-        android:id="@+id/movie_genres"
+        android:id="@+id/tv_show_genres"
         android:layout_width="0dp"
         android:layout_height="0dp"
         tools:text="Genres"

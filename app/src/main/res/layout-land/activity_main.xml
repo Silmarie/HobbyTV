@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ProgressBar
+    <!--<ProgressBar
         android:id="@+id/pb_loading_indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,14 +19,53 @@
         android:id="@+id/error_message"
         android:textSize="22sp"
         android:padding="16dp"
-        android:visibility="invisible"/>
+        android:visibility="invisible"/>-->
 
-    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+    <!--<GridView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/grid_movies"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:numColumns="3"
-        android:stretchMode="columnWidth" />
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth" />-->
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <android.support.design.widget.TabLayout
+            android:background="@color/colorPrimary"
+            app:tabSelectedTextColor="#ffffff"
+            app:tabIndicatorColor="#FFFFFF"
+            app:tabIndicatorHeight="3dp"
+            app:tabTextColor="#FFFFFF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabMode="fixed"
+            app:tabGravity="fill"
+            android:id="@+id/tbl_pages"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_pages"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v4.view.ViewPager>
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:background="@color/colorPrimaryLight"
+            app:srcCompat="@drawable/ic_search_white_24dp" />
+    </FrameLayout>
 
 </RelativeLayout>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Popular Movies</string>
+    <string name="app_name">Hobby TV</string>
     <string name="most_popular">Most Popular</string>
     <string name="top_rated">Top Rated</string>
     <string name="sort">Sort</string>
@@ -8,7 +8,7 @@
     <string name="trailer_label">Trailer </string>
     <string name="minutes_label">min</string>
     <string name="reviews_label">Reviews:</string>
-    <string name="favorites">Favorite Movies</string>
+    <string name="favorites">My Favorites</string>
     <string name="mark_as_favorite">Mark as Favorite</string>
     <string name="remove_from_favorites">Remove from Favorites</string>
     <string name="title_activity_movie_detail">MovieDetailActivity</string>
@@ -16,6 +16,15 @@
     <string name="nav_title_reviews">Reviews</string>
     <string name="nav_title_details">Details</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nav_title_other">Other</string>
+    <string name="nav_title_videos">Videos</string>
+    <string name="title_activity_tv_show_detail">TvShowDetailActivity</string>
+    <string name="movie_poster_image_description">Movie Poster Image</string>
+    <string name="play_video_description">Play Video</string>
+    <string name="movie_overview_description">Movie Overview</string>
+    <string name="tv_show_poster_image_description">TV Show Poster Image</string>
+    <string name="frame_for_fragment_frame_layout_label">Frame for Fragment</string>
+    <string name="movie_genres_description">Movie Genres</string>
+    <string name="tv_show_genres_description">TV Show Genres</string>
+    <string name="tv_show_overview_description">TV Show Overview</string>
 </resources>

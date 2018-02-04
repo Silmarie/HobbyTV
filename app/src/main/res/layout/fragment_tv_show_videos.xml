@@ -2,12 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.joanabeleza.hobbytv.Fragments.Movies.MovieTrailersFragment">
-
-    <!-- TODO: Update blank fragment layout -->
+    tools:context="com.example.joanabeleza.hobbytv.Fragments.TvShows.TvShowVideosFragment">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/trailers_list"
+        android:id="@+id/videos_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/activity_horizontal_margin"/>

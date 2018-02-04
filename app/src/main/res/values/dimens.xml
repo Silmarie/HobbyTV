@@ -4,4 +4,5 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="tv_movie_title_vertical_margin">20dp</dimen>
     <dimen name="tv_movie_title_horizontal_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 </resources>
