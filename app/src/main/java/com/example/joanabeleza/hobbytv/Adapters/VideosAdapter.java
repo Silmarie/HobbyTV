@@ -8,26 +8,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.joanabeleza.hobbytv.R;
 
 import java.util.List;
 
 /**
- * Project PopularMovies refactored by joanabeleza on 03/02/2018.
+ * Project HobbyTV refactored by joanabeleza on 03/02/2018.
  */
 
 public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.MyViewHolder> {
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView videoLabel;
         ImageButton playButton;
 
         MyViewHolder(View view) {
             super(view);
-
-            videoLabel = view.findViewById(R.id.video_label);
             playButton = view.findViewById(R.id.play_video_button);
 
             view.setOnClickListener(this);
@@ -65,17 +62,17 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.MyViewHold
     public void onBindViewHolder(final VideosAdapter.MyViewHolder holder, int position) {
         final String video = mVideosUrl.get(position);
 
-        TextView videoLabel = holder.videoLabel;
-        videoLabel.setText(String.format("Video %d", position + 1));
         ImageButton playImageButton = holder.playButton;
-        playImageButton.setColorFilter(R.color.colorPrimary);
+
+        String url = "https://img.youtube.com/vi/"+video+"/0.jpg";
+        Glide.with(holder.itemView.getContext()).load(url).into(playImageButton);
 
         playImageButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 Context context = holder.itemView.getContext();
 
-                Intent yt_play = new Intent(Intent.ACTION_VIEW, Uri.parse(video));
+                Intent yt_play = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=" + video));
                 Intent chooser = Intent.createChooser(yt_play , "Open With");
 
                 if (yt_play .resolveActivity(context.getPackageManager()) != null) {

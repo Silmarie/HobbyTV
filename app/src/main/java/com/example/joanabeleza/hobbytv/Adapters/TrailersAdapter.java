@@ -25,13 +25,11 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.MyView
     private Context mContext;
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView trailerLabel;
         ImageButton playButton;
 
         MyViewHolder(View view) {
             super(view);
 
-            trailerLabel = view.findViewById(R.id.trailer_label);
             playButton = view.findViewById(R.id.play_trailer_button);
 
             view.setOnClickListener(this);
@@ -70,10 +68,7 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.MyView
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final String trailer = mTrailersUrl.get(position);
 
-        TextView trailerLabelView = holder.trailerLabel;
-        trailerLabelView.setText(String.format("Trailer %d", position + 1));
         ImageButton playImageButton = holder.playButton;
-        playImageButton.setColorFilter(R.color.colorPrimary);
 
         String url = "https://img.youtube.com/vi/"+trailer+"/0.jpg";
         Glide.with(mContext).load(url).into(playImageButton);

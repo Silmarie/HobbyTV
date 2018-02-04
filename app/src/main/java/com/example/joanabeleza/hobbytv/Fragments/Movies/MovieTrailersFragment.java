@@ -1,11 +1,13 @@
 package com.example.joanabeleza.hobbytv.Fragments.Movies;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -77,10 +79,11 @@ public class MovieTrailersFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+
+        /*if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        }*/
     }
 
     @Override
@@ -94,7 +97,17 @@ public class MovieTrailersFragment extends Fragment {
         rvTrailers = view.findViewById(R.id.trailers_list);
         trailersAdapter = new TrailersAdapter(trailersList, getContext());
         trailersAdapter.notifyDataSetChanged();
-        rvTrailers.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+
+        Context context = view.getContext();
+
+        int orientation = getResources().getConfiguration().orientation;
+
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            rvTrailers.setLayoutManager(new LinearLayoutManager(context));
+        } else {
+            rvTrailers.setLayoutManager(new GridLayoutManager(context, 2));
+        }
+
         rvTrailers.setAdapter(trailersAdapter);
 
 

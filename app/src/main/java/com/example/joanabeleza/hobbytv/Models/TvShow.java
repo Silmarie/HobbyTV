@@ -62,7 +62,7 @@ public class TvShow implements Parcelable {
         parcel.writeString(imagePath);
     }
 
-    private static final Creator CREATOR = new Creator() {
+    public static final Creator CREATOR = new Creator() {
         public TvShow createFromParcel(Parcel in) {
             return new TvShow(in);
         }

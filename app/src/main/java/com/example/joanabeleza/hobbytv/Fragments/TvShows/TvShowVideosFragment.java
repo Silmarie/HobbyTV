@@ -1,11 +1,13 @@
 package com.example.joanabeleza.hobbytv.Fragments.TvShows;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -94,7 +96,17 @@ public class TvShowVideosFragment extends Fragment {
         rvVideos = view.findViewById(R.id.videos_list);
         videosAdapter = new VideosAdapter(videosList);
         videosAdapter.notifyDataSetChanged();
-        rvVideos.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+
+        Context context = view.getContext();
+
+        int orientation = getResources().getConfiguration().orientation;
+
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            rvVideos.setLayoutManager(new LinearLayoutManager(context));
+        } else {
+            rvVideos.setLayoutManager(new GridLayoutManager(context, 2));
+        }
+
         rvVideos.setAdapter(videosAdapter);
 
 

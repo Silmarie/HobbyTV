@@ -33,7 +33,8 @@ public class NetworkUtils {
     // Declare the @ StringDef for these constants:
     @StringDef({MOVIE, TV_SHOW})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface MediaType {}
+    public @interface MediaType {
+    }
 
 
     private final static String MOVIE_DB_BASE_URL =
@@ -191,13 +192,13 @@ public class NetworkUtils {
 
         String[] genres = new String[genresArray.length()];
         for (int i = 0; i < genresArray.length(); i++) {
-                try {
-                    JSONObject genre = genresArray.getJSONObject(i);
-                    genres[i] = genre.getString("name");
+            try {
+                JSONObject genre = genresArray.getJSONObject(i);
+                genres[i] = genre.getString("name");
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         String backdrop_path = movieDBJson.getString(MOVIE_BACKDROP_PATH);
@@ -245,10 +246,9 @@ public class NetworkUtils {
 
             type = movieObject.getString(VIDEO_TYPE);
 
-            if (type.equals("Trailer")) {
-                key = movieObject.getString(VIDEO_LINK);
-                parsedMovieData.add(key);
-            }
+            key = movieObject.getString(VIDEO_LINK);
+            parsedMovieData.add(key);
+
         }
 
         return parsedMovieData;
@@ -472,55 +472,6 @@ public class NetworkUtils {
             imageUrl = movieObject.getString(TV_SHOW_IMAGE_PATH);
 
             parsedTvShowData[i] = id + "__" + name + "__" + release_date + "__" + vote_average + "__" + overview + "__" + imageUrl;
-        }
-
-        return parsedTvShowData;
-    }
-
-    public static ArrayList getTvShowVideos(String tvShowVideosJsonStr) throws JSONException {
-        final String VIDEO_TYPE = "type";
-
-        final String VIDEO_LINK = "key";
-
-        final String RESULTS = "results";
-
-        final String ERROR_CODE = "status_code";
-
-        final String ERROR_MESSAGE = "status_message";
-
-        JSONObject tvShowDBJson = new JSONObject(tvShowVideosJsonStr);
-
-        ArrayList parsedTvShowData;
-
-        /* Check if HTTP request returned an error in JSON */
-        if (tvShowDBJson.has(ERROR_CODE)) {
-            String[] error = new String[2];
-            String errorMessage = tvShowDBJson.getString(ERROR_MESSAGE);
-
-            error[0] = "error";
-            error[1] = errorMessage;
-            Log.d("ERROR", errorMessage);
-
-            return new ArrayList<>(asList(error));
-        }
-
-        JSONArray movieArray = tvShowDBJson.getJSONArray(RESULTS);
-
-        parsedTvShowData = new ArrayList();
-
-        for (int i = 0, j = 0; i < movieArray.length(); i++, j++) {
-            String type;
-            String key;
-
-            /* Get the JSON object representing the tv show video */
-            JSONObject tvShowVideoObject = movieArray.getJSONObject(i);
-
-            type = tvShowVideoObject.getString(VIDEO_TYPE);
-
-            if (type.equals("Trailer")) {
-                key = tvShowVideoObject.getString(VIDEO_LINK);
-                parsedTvShowData.add("https://www.youtube.com/watch?v=" + key);
-            }
         }
 
         return parsedTvShowData;

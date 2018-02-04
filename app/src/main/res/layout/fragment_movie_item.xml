@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
@@ -10,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
-        android:contentDescription="@string/movie_poster_image_description" />
+        android:contentDescription="@string/movie_poster_image_description"
+        android:scaleType="centerCrop" />
 
 </LinearLayout>
