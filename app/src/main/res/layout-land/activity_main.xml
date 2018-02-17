@@ -57,15 +57,6 @@
             android:layout_height="match_parent">
         </android.support.v4.view.ViewPager>
 
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="16dp"
-            android:background="@color/colorPrimaryLight"
-            app:srcCompat="@drawable/ic_search_white_24dp" />
     </FrameLayout>
 
 </RelativeLayout>

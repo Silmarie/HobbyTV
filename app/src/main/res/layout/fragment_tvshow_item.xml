@@ -11,6 +11,6 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        android:contentDescription="TV Show Poster Image" />
+        android:contentDescription="@string/tv_show_poster_image" />
 
 </LinearLayout>

@@ -5,4 +5,5 @@
     <color name="colorPrimaryDark">#00796B</color>
     <color name="colorAccent">#536DFE</color>
     <color name="movie_details">#ffffff</color>
+    <color name="video_background">#0000</color>
 </resources>

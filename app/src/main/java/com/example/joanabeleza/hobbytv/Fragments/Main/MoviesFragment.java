@@ -5,7 +5,11 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -13,23 +17,40 @@ import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.example.joanabeleza.hobbytv.Adapters.MoviesRecyclerViewAdapter;
+import com.example.joanabeleza.hobbytv.Adapters.SpinnerGenresAdapter;
 import com.example.joanabeleza.hobbytv.Data.Movies.MoviesContract;
 import com.example.joanabeleza.hobbytv.Models.Movie;
+import com.example.joanabeleza.hobbytv.Models.SpinnerGenreItem;
 import com.example.joanabeleza.hobbytv.R;
 import com.example.joanabeleza.hobbytv.utilities.NetworkUtils;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shawnlin.numberpicker.NumberPicker;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -43,7 +64,8 @@ import static com.example.joanabeleza.hobbytv.utilities.NetworkUtils.MOVIE;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class MoviesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+@SuppressWarnings("unchecked")
+public class MoviesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, View.OnClickListener {
 
     @BindView(R.id.movies_grid)
     RecyclerView moviesGrid;
@@ -54,17 +76,23 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
     @BindView(R.id.pb_loading_indicator)
     ProgressBar mLoadingIndicator;
 
+    @BindView(R.id.search_movies_fab)
+    FloatingActionButton mSearchMoviesFab;
+
+    NumberPicker yearPicker;
+
     public boolean isFavorite = false;
+    public boolean isSearching = false;
 
     private ArrayList<Movie> mMoviesList;
 
     private MoviesRecyclerViewAdapter moviesRecyclerViewAdapter;
 
     private static final int MOVIES_LOADER_ID = 0;
+    ArrayList<SpinnerGenreItem> genresSpinnerItemsList;
+    SpinnerGenresAdapter genresAdapter;
 
-    // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
     private int mColumnCount = 2;
     private OnListFragmentInteractionListener mListener;
 
@@ -103,6 +131,8 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
 
         ButterKnife.bind(this, view);
 
+        yearPicker = view.getRootView().findViewById(R.id.year_picker);
+
         Context context = view.getContext();
 
         if (mColumnCount <= 1) {
@@ -113,17 +143,24 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
 
         if (savedInstanceState == null || !savedInstanceState.containsKey("movies")) {
             mMoviesList = new ArrayList<>();
-            loadMoviesData("popular");
+            HashMap<String, String> moviesDiscoverQuery = new HashMap<>();
+            moviesDiscoverQuery.put(getString(R.string.filter_sort_by), getString(R.string.filter_sort_default));
+            new MovieDiscoverTask(this).execute(moviesDiscoverQuery);
         } else {
             mMoviesList = savedInstanceState.getParcelableArrayList("movies");
+        }
+
+        if (savedInstanceState != null && savedInstanceState.containsKey("year")) {
+            yearPicker.setValue(savedInstanceState.getInt("year"));
         }
 
         moviesRecyclerViewAdapter = new MoviesRecyclerViewAdapter(mMoviesList, mListener, getContext());
         moviesGrid.setAdapter(moviesRecyclerViewAdapter);
 
+        mSearchMoviesFab.setOnClickListener(this);
+
         return view;
     }
-
 
     @Override
     public void onAttach(Context context) {
@@ -146,29 +183,19 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
     public boolean onOptionsItemSelected(MenuItem item) {
         int clickedItem = item.getItemId();
 
-        if (clickedItem == R.id.popular) {
-            isFavorite = false;
-            mMoviesList.clear();
-            loadMoviesData("popular");
-            Toast.makeText(getContext(), "Most Popular Movies",
-                    Toast.LENGTH_LONG).show();
-            return true;
-        }
-        if (clickedItem == R.id.top_rated) {
-            isFavorite = false;
-            mMoviesList.clear();
-            loadMoviesData("top_rated");
-            Toast.makeText(getContext(), "Top Rated Movies",
-                    Toast.LENGTH_LONG).show();
-            return true;
-        }
-        if (clickedItem == R.id.favorites) {
-            mMoviesList.clear();
-            isFavorite = true;
-            getActivity().getSupportLoaderManager().initLoader(MOVIES_LOADER_ID, null, this);
-            Toast.makeText(getContext(), "Favorite Movies",
-                    Toast.LENGTH_LONG).show();
-            return true;
+        switch (clickedItem) {
+            case R.id.menu_favorites:
+                mMoviesList.clear();
+                isFavorite = true;
+                if (getActivity() != null)
+                    getActivity().getSupportLoaderManager().initLoader(MOVIES_LOADER_ID, null, this);
+                Toast.makeText(getContext(), "Favorite Movies",
+                        Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.menu_settings:
+                Toast.makeText(getContext(), "Not implemented yet",
+                        Toast.LENGTH_LONG).show();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -176,41 +203,49 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new AsyncTaskLoader<Cursor>(getContext()) {
+        if (getContext() != null)
+            return new GetCursorData(getContext());
+        return null;
+    }
 
-            Cursor mTaskData = null;
+    private static class GetCursorData extends AsyncTaskLoader<Cursor> {
 
-            @Override
-            protected void onStartLoading() {
-                if (mTaskData != null) {
-                    deliverResult(mTaskData);
-                } else {
-                    forceLoad();
-                }
+        Cursor mTaskData = null;
+
+        GetCursorData(@NonNull Context context) {
+            super(context);
+        }
+
+        @Override
+        protected void onStartLoading() {
+            if (mTaskData != null) {
+                deliverResult(mTaskData);
+            } else {
+                forceLoad();
             }
+        }
 
-            @Override
-            public Cursor loadInBackground() {
+        @Override
+        public Cursor loadInBackground() {
 
-                try {
-                    return getContext().getContentResolver().query(MoviesContract.MoviesEntry.CONTENT_URI,
-                            null,
-                            null,
-                            null,
-                            MoviesContract.MoviesEntry._ID);
+            try {
+                return getContext().getContentResolver().query(MoviesContract.MoviesEntry.CONTENT_URI,
+                        null,
+                        null,
+                        null,
+                        MoviesContract.MoviesEntry._ID);
 
-                } catch (Exception e) {
-                    Log.e("Message", "Failed to asynchronously load data.");
-                    e.printStackTrace();
-                    return null;
-                }
+            } catch (Exception e) {
+                Log.e("Message", "Failed to asynchronously load data.");
+                e.printStackTrace();
+                return null;
             }
+        }
 
-            public void deliverResult(Cursor data) {
-                mTaskData = data;
-                super.deliverResult(data);
-            }
-        };
+        public void deliverResult(Cursor data) {
+            mTaskData = data;
+            super.deliverResult(data);
+        }
     }
 
     @Override
@@ -228,60 +263,157 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         super.onResume();
 
         if (isFavorite) {
-            getActivity().getSupportLoaderManager().restartLoader(MOVIES_LOADER_ID, null, this);
+            if (getActivity() != null)
+                getActivity().getSupportLoaderManager().restartLoader(MOVIES_LOADER_ID, null, this);
         }
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putParcelableArrayList("movies", mMoviesList);
+        outState.putInt("year", yearPicker.getValue());
         super.onSaveInstanceState(outState);
     }
 
-    private void loadMoviesData(String sortPreference) {
-        new MovieQueryTask().execute(sortPreference);
+    private void loadGenresData() {
+
+        final ObjectMapper mapper = new ObjectMapper();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL movieGenresRequestUrl = NetworkUtils.buildGenresUrl(MOVIE);
+
+                        String jsonMovieGenresResponse = NetworkUtils
+                                .getResponseFromHttpUrl(movieGenresRequestUrl);
+
+                        JSONObject genresDBJson = new JSONObject(jsonMovieGenresResponse);
+
+                        JSONArray genresArray = genresDBJson.getJSONArray("genres");
+
+                    genresSpinnerItemsList = mapper.readValue(genresArray.toString(), new TypeReference<ArrayList<SpinnerGenreItem>>(){});
+                    SpinnerGenreItem spinnerGenreItem = new SpinnerGenreItem();
+                    spinnerGenreItem.setId(0);
+                    spinnerGenreItem.setName("Select Genres");
+                    spinnerGenreItem.setSelected(false);
+                    genresSpinnerItemsList.add(0, spinnerGenreItem);
+
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (getActivity() != null) {
+                                Spinner spinner = getActivity().findViewById(R.id.sp_genres_select);
+
+                                genresAdapter = new SpinnerGenresAdapter(getActivity(), 0,
+                                        genresSpinnerItemsList);
+                                spinner.setAdapter(genresAdapter);
+                            }
+                        }
+                    });
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
-    public class MovieQueryTask extends AsyncTask<String, Void, String[]> {
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.search_movies_fab:
+                BottomSheetBehavior mBottomSheetBehavior = BottomSheetBehavior.from(view.getRootView().findViewById(R.id.search_bottom_sheet));
+                mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+                    @Override
+                    public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                        if (newState == BottomSheetBehavior.STATE_COLLAPSED || newState == BottomSheetBehavior.STATE_HIDDEN) {
+                            isSearching = false;
+                        } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                            isSearching = true;
+                        }
+                    }
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mLoadingIndicator.setVisibility(View.VISIBLE);
-            mErrorMessage.setVisibility(View.INVISIBLE);
+                    @Override
+                    public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+                    }
+                });
+
+                if (!isSearching) {
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+                    loadGenresData();
+                } else {
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    HashMap<String, String> moviesDiscoverQuery = new HashMap<>();
+
+                    List<String> genreIds = new ArrayList<>();
+                    for (SpinnerGenreItem item:
+                         genresAdapter.getItems()) {
+                        if (item.isSelected())
+                            genreIds.add(String.valueOf(item.getId()));
+                    }
+
+                    ToggleButton toggleSortOrder = view.getRootView().findViewById(R.id.toggle_sort_order);
+                    String sortOrder = toggleSortOrder.isChecked() ? getString(R.string.filter_order_by_asc) : getString(R.string.filter_order_by_desc);
+                    Spinner sortBySpinner = view.getRootView().findViewById(R.id.sp_select_sort_by);
+                    String selectedVal = getResources().getStringArray(R.array.sort_by_spinner_array_values)[sortBySpinner.getSelectedItemPosition()];
+                    moviesDiscoverQuery.put(getString(R.string.filter_sort_by), String.format("%s.%s", selectedVal, sortOrder));
+
+                    Switch toggleYear = view.getRootView().findViewById(R.id.toggle_filter_year);
+                    if (toggleYear.isChecked()) {
+                        moviesDiscoverQuery.put(getString(R.string.filter_by_year), String.valueOf(yearPicker.getValue()));
+                    }
+
+                    moviesDiscoverQuery.put(getString(R.string.filter_by_genres), TextUtils.join(",", genreIds));
+
+                    mMoviesList.clear();
+                    moviesRecyclerViewAdapter.notifyDataSetChanged();
+                    new MovieDiscoverTask(this).execute(moviesDiscoverQuery);
+                }
+                break;
+        }
+    }
+
+    public static class MovieDiscoverTask extends AsyncTask<HashMap<String,String>, Void, String[]> {
+
+        private WeakReference<MoviesFragment> fragment;
+
+        MovieDiscoverTask(MoviesFragment fragment) {
+            this.fragment = new WeakReference<>(fragment);
         }
 
         @Override
-        protected String[] doInBackground(String... params) {
-
-            if (params.length == 0) {
-                return null;
-            }
-
-            String preference = params[0];
-            URL moviesRequestUrl = NetworkUtils.buildUrl(MOVIE,preference);
-
+        protected String[] doInBackground(HashMap... params) {
             try {
-                String jsonMoviesResponse = NetworkUtils
-                        .getResponseFromHttpUrl(moviesRequestUrl);
-
-                return NetworkUtils
-                        .getSimpleMoviesInfoFromJson(jsonMoviesResponse);
-
-            } catch (Exception e) {
+                if (params.length == 0) {
+                    return null;
+                }
+            HashMap queryValues = params[0];
+            URL discoverMovies = NetworkUtils.buildDiscoverUrl(MOVIE, queryValues);
+                String jsonMoviesResponse = NetworkUtils.getResponseFromHttpUrl(discoverMovies);
+                return NetworkUtils.getSimpleMoviesInfoFromJson(jsonMoviesResponse);
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
                 return null;
             }
         }
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            fragment.get().mLoadingIndicator.setVisibility(View.VISIBLE);
+            fragment.get().mErrorMessage.setVisibility(View.INVISIBLE);
+        }
+
+        @Override
         protected void onPostExecute(String[] moviesData) {
-            mLoadingIndicator.setVisibility(View.INVISIBLE);
+            fragment.get().mLoadingIndicator.setVisibility(View.INVISIBLE);
             String[] movieInfo;
             if (moviesData != null) {
                 if (Objects.equals(moviesData[0], "error")) {
-                    mErrorMessage.setText(moviesData[1]);
-                    mErrorMessage.setVisibility(View.VISIBLE);
+                    fragment.get().mErrorMessage.setText(moviesData[1]);
+                    fragment.get().mErrorMessage.setVisibility(View.VISIBLE);
                     return;
                 }
 
@@ -290,12 +422,12 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
                     Log.v("movie string", movieString);
                     Movie movie = new Movie(movieInfo[0], movieInfo[1], movieInfo[2],
                             movieInfo[3], Double.parseDouble(movieInfo[4]), movieInfo[5]);
-                    mMoviesList.add(movie);
-                    moviesRecyclerViewAdapter.notifyDataSetChanged();
+                    fragment.get().mMoviesList.add(movie);
+                    fragment.get().moviesRecyclerViewAdapter.notifyDataSetChanged();
                 }
             } else {
-                mErrorMessage.setText(R.string.network_error);
-                mErrorMessage.setVisibility(View.VISIBLE);
+                fragment.get().mErrorMessage.setText(R.string.network_error);
+                fragment.get().mErrorMessage.setVisibility(View.VISIBLE);
             }
         }
 

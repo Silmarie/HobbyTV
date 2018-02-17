@@ -4,16 +4,19 @@
     <item
         android:id="@+id/navigation_details"
         android:icon="@drawable/ic_live_tv_black_24dp"
+        android:name="@string/nav_title_details"
         android:title="@string/nav_title_details" />
 
     <item
         android:id="@+id/navigation_other_tv_shows"
         android:icon="@drawable/ic_dvr_black_24dp"
+        android:name="@string/nav_title_other"
         android:title="@string/nav_title_other" />
 
     <item
         android:id="@+id/navigation_videos"
         android:icon="@drawable/ic_play_arrow_black_24dp"
+        android:name="@string/nav_title_videos"
         android:title="@string/nav_title_videos" />
 
 </menu>

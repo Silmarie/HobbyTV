@@ -89,7 +89,7 @@ public class TvShowOtherFragment extends Fragment implements LoaderManager.Loade
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+        //setHasOptionsMenu(true);
 
         int orientation = getResources().getConfiguration().orientation;
 
@@ -150,29 +150,14 @@ public class TvShowOtherFragment extends Fragment implements LoaderManager.Loade
     public boolean onOptionsItemSelected(MenuItem item) {
         int clickedItem = item.getItemId();
 
-        if (clickedItem == R.id.popular) {
-            isFavorite = false;
-            mTvShowsList.clear();
-            loadTvShowsData("popular");
-            Toast.makeText(getContext(), "Most Popular Tv Shows",
-                    Toast.LENGTH_LONG).show();
-            return true;
-        }
-        if (clickedItem == R.id.top_rated) {
-            isFavorite = false;
-            mTvShowsList.clear();
-            loadTvShowsData("top_rated");
-            Toast.makeText(getContext(), "Top Rated Tv Shows",
-                    Toast.LENGTH_LONG).show();
-            return true;
-        }
-        if (clickedItem == R.id.favorites) {
-            mTvShowsList.clear();
-            isFavorite = true;
-            getActivity().getSupportLoaderManager().initLoader(TV_SHOWS_LOADER_ID, null, this);
-            Toast.makeText(getContext(), "Favorite Tv Shows",
-                    Toast.LENGTH_LONG).show();
-            return true;
+        switch (clickedItem) {
+            case R.id.menu_favorites:
+                Toast.makeText(getContext(), "Favorite Tv Shows",
+                        Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.menu_settings:
+                Toast.makeText(getContext(), "Not implemented yet",
+                        Toast.LENGTH_LONG).show();
         }
 
         return super.onOptionsItemSelected(item);

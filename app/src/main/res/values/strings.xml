@@ -1,14 +1,13 @@
 <resources>
     <string name="app_name">Hobby TV</string>
-    <string name="most_popular">Most Popular</string>
-    <string name="top_rated">Top Rated</string>
-    <string name="sort">Sort</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_more">Menu</string>
     <string name="network_error">Could not reach server</string>
     <string name="trailers_label">Trailers:</string>
     <string name="trailer_label">Trailer </string>
     <string name="minutes_label">min</string>
     <string name="reviews_label">Reviews:</string>
-    <string name="favorites">My Favorites</string>
+    <string name="menu_favorites">My Favorites</string>
     <string name="mark_as_favorite">Mark as Favorite</string>
     <string name="remove_from_favorites">Remove from Favorites</string>
     <string name="title_activity_movie_detail">MovieDetailActivity</string>
@@ -28,4 +27,45 @@
     <string name="tv_show_genres_description">TV Show Genres</string>
     <string name="tv_show_overview_description">TV Show Overview</string>
     <string name="movie_trailer_description">Movie Trailer</string>
+    <string name="search_criteria_title">Enter your search criteria</string>
+
+    <string-array name="sort_by_spinner_array_labels">
+        <item>Popularity</item>
+        <item>Release Date</item>
+        <item>Revenue</item>
+        <item>Title</item>
+        <item>Vote Average</item>
+        <item>Vote Count</item>
+    </string-array>
+
+    <string-array name="sort_by_spinner_array_values">
+        <item>popularity</item>
+        <item>release_date</item>
+        <item>revenue</item>
+        <item>original_title</item>
+        <item>vote_average</item>
+        <item>vote_count</item>
+    </string-array>
+
+    <!-- Font -->
+    <string name="roboto_regular">sans-serif</string>
+    <string name="roboto_light">sans-serif-light</string>
+    <string name="roboto_condensed">sans-serif-condensed</string>
+    <string name="roboto_thin">sans-serif-thin</string>
+    <string name="roboto_medium">sans-serif-medium</string>
+
+    <string name="number_picker_formatter">%02d</string>
+    <string name="genres_label">Genres</string>
+    <string name="sort_by_label">Sort By</string>
+    <string name="desc_label">Desc</string>
+    <string name="asc_label">Asc</string>
+    <string name="year_label">Year</string>
+    <string name="tv_show_poster_image">TV Show Poster Image</string>
+    <string name="select_genres_option">Select Genres</string>
+    <string name="filter_by_genres">with_genres</string>
+    <string name="filter_by_year">year</string>
+    <string name="filter_sort_by">sort_by</string>
+    <string name="filter_order_by_asc">asc</string>
+    <string name="filter_order_by_desc">desc</string>
+    <string name="filter_sort_default">popularity.desc</string>
 </resources>

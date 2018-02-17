@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/movie_search_bottom_sheet_height"
+    android:id="@+id/search_bottom_sheet"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="0dp"
+    android:clickable="true"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
+    android:focusable="true">
+
+    <TextView
+        android:id="@+id/tv_search_criteria_lbl"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_sheet_header_height"
+        android:background="@color/colorAccent"
+        android:gravity="center"
+        android:text="@string/search_criteria_title"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_genres_select_lbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/filters_label_margin_margin_start"
+        android:layout_marginTop="@dimen/filters_label_margin_margin_top"
+        android:text="@string/genres_label"
+        android:textSize="@dimen/filters_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_search_criteria_lbl"
+        tools:text="Genres" />
+
+    <Spinner
+        android:id="@+id/sp_genres_select"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/filters_margin"
+        android:layout_marginStart="@dimen/filters_margin"
+        android:layout_marginTop="@dimen/filters_margin"
+        android:padding="@dimen/filters_padding"
+        android:spinnerMode="dialog"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_genres_select_lbl"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_genres_select_lbl"
+        app:layout_constraintTop_toTopOf="@+id/tv_genres_select_lbl" />
+
+    <TextView
+        android:id="@+id/tv_sort_by_select_lbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/filters_label_margin_margin_start"
+        android:layout_marginTop="@dimen/filters_label_margin_margin_top"
+        android:text="@string/sort_by_label"
+        android:textSize="@dimen/filters_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_genres_select_lbl"
+        tools:text="Sort By" />
+
+    <Spinner
+        android:id="@+id/sp_select_sort_by"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:entries="@array/sort_by_spinner_array_labels"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_sort_by_select_lbl"
+        app:layout_constraintStart_toStartOf="@+id/sp_genres_select"
+        app:layout_constraintTop_toTopOf="@+id/tv_sort_by_select_lbl" />
+
+    <ToggleButton
+        android:id="@+id/toggle_sort_order"
+        style="@android:style/Widget.Material.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/filters_margin"
+        android:checked="false"
+        android:textOff="@string/desc_label"
+        android:textOn="@string/asc_label"
+        app:layout_constraintBottom_toBottomOf="@+id/sp_select_sort_by"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/sp_select_sort_by"
+        app:layout_constraintTop_toTopOf="@+id/sp_select_sort_by" />
+
+    <TextView
+        android:id="@+id/tv_pick_year_lbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/filters_label_margin_margin_start"
+        android:layout_marginTop="@dimen/filters_label_margin_margin_top"
+        android:text="@string/year_label"
+        android:textSize="@dimen/filters_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_sort_by_select_lbl"
+        tools:text="Year" />
+
+    <com.shawnlin.numberpicker.NumberPicker
+        android:id="@+id/year_picker"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="@dimen/filters_label_margin_margin_start"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_pick_year_lbl"
+        app:layout_constraintStart_toEndOf="@+id/tv_pick_year_lbl"
+        app:layout_constraintTop_toTopOf="@+id/tv_pick_year_lbl"
+        app:np_dividerColor="@color/colorPrimary"
+        app:np_dividerDistance="70dp"
+        app:np_dividerThickness="1.5dp"
+        app:np_formatter="@string/number_picker_formatter"
+        app:np_height="45dp"
+        app:np_max="2018"
+        app:np_min="1950"
+        app:np_orientation="horizontal"
+        app:np_selectedTextColor="@color/colorPrimary"
+        app:np_selectedTextSize="@dimen/selected_text_size"
+        app:np_textColor="@android:color/darker_gray"
+        app:np_textSize="@dimen/text_size"
+        app:np_typeface="@string/roboto_light"
+        app:np_value="2018"
+        app:np_width="150dp" />
+
+    <Switch
+        android:id="@+id/toggle_filter_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/filters_margin"
+        android:layout_marginStart="@dimen/filters_margin"
+        android:layout_marginTop="@dimen/filters_margin"
+        android:checked="false"
+        app:layout_constraintBottom_toBottomOf="@+id/year_picker"
+        app:layout_constraintStart_toEndOf="@+id/year_picker"
+        app:layout_constraintTop_toTopOf="@+id/year_picker" />
+
+</android.support.constraint.ConstraintLayout>

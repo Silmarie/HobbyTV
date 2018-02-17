@@ -21,6 +21,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import static java.util.Arrays.asList;
@@ -29,9 +30,10 @@ public class NetworkUtils {
 
     public static final String MOVIE = "Movie";
     public static final String TV_SHOW = "Tv Show";
+    public static final String MOVIE_GENRES = "genres";
 
     // Declare the @ StringDef for these constants:
-    @StringDef({MOVIE, TV_SHOW})
+    @StringDef({MOVIE, TV_SHOW, MOVIE_GENRES})
     @Retention(RetentionPolicy.SOURCE)
     public @interface MediaType {
     }
@@ -43,8 +45,17 @@ public class NetworkUtils {
     private final static String MOVIE_DB_GENRES_BASE_URL =
             "https://api.themoviedb.org/3/genre/movie/list";
 
+    private final static String MOVIE_DB_DISCOVER_BASE_URL =
+            "https://api.themoviedb.org/3/discover/movie";
+
+    private final static String TV_SHOW_DB_DISCOVER_BASE_URL =
+            "https://api.themoviedb.org/3/discover/tv";
+
     private final static String TV_SHOW_DB_BASE_URL =
             "https://api.themoviedb.org/3/tv/";
+
+    private final static String TV_SHOW_DB_GENRES_BASE_URL =
+            "https://api.themoviedb.org/3/genre/tv/list";
 
     private final static String IMAGE_BASE_URL =
             "https://image.tmdb.org/t/p/";
@@ -60,6 +71,26 @@ public class NetworkUtils {
         Uri builtUri = Uri.parse((type.equals(MOVIE) ? MOVIE_DB_BASE_URL : TV_SHOW_DB_BASE_URL) + searchQuery).buildUpon()
                 .appendQueryParameter(API_QUERY, API_KEY)
                 .build();
+
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        return url;
+    }
+
+    public static URL buildDiscoverUrl(String type, HashMap<String, String> queryParams) {
+        Uri.Builder builder = Uri.parse((type.equals(MOVIE) ? MOVIE_DB_DISCOVER_BASE_URL : TV_SHOW_DB_DISCOVER_BASE_URL)).buildUpon()
+                .appendQueryParameter(API_QUERY, API_KEY);
+
+        for (String qp : queryParams.keySet()) {
+            builder.appendQueryParameter(qp, queryParams.get(qp));
+        }
+
+        Uri builtUri = builder.build();
 
         URL url = null;
         try {
@@ -164,8 +195,6 @@ public class NetworkUtils {
 
     public static String getMovieDetails(String movieDetailsJsonStr) throws JSONException {
         final String MOVIE_RUNTIME = "runtime";
-
-        final String MOVIE_GENRES = "genres";
 
         final String MOVIE_BACKDROP_PATH = "backdrop_path";
 
@@ -477,8 +506,8 @@ public class NetworkUtils {
         return parsedTvShowData;
     }
 
-    /*public static URL buildGenresUrl() {
-        Uri builtUri = Uri.parse(MOVIE_DB_GENRES_BASE_URL).buildUpon()
+    public static URL buildGenresUrl(String type) {
+        Uri builtUri = Uri.parse((type.equals(MOVIE) ? MOVIE_DB_GENRES_BASE_URL : TV_SHOW_DB_GENRES_BASE_URL)).buildUpon()
                 .appendQueryParameter(API_QUERY, API_KEY)
                 .build();
 
@@ -492,9 +521,6 @@ public class NetworkUtils {
         return url;
     }
 
-    public static String buildStringUrl(String movieSearchQuery) {
-        return MOVIE_DB_BASE_URL + movieSearchQuery + "?" + API_QUERY + "=" + API_KEY;
-    }
     private static String getGenresName(JSONArray movieGenresArray, JSONArray genres) {
         String[] result = new String[genres.length()];
         for (int i = 0; i < genres.length(); i++) {
@@ -514,6 +540,6 @@ public class NetworkUtils {
             }
         }
         return TextUtils.join(", ", result);
-    }*/
+    }
 
 }

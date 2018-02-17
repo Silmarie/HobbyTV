@@ -5,4 +5,31 @@
     <dimen name="tv_movie_title_vertical_margin">20dp</dimen>
     <dimen name="tv_movie_title_horizontal_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="bottom_sheet_peek_height">60dp</dimen>
+
+
+    <dimen name="text_size">12dp</dimen>
+    <dimen name="selected_text_size">18dp</dimen>
+    <dimen name="messages_padding">16dp</dimen>
+    <dimen name="messages_text_size">22sp</dimen>
+    <dimen name="progress_bar_padding">20dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="item_review_title_size">20sp</dimen>
+    <dimen name="item_review_content_size">12sp</dimen>
+    <dimen name="sw600_item_review_title_size">25sp</dimen>
+    <dimen name="sw600_item_review_contentsize">20sp</dimen>
+    <dimen name="trailer_card_width">300dp</dimen>
+    <dimen name="trailer_card_height">225dp</dimen>
+    <dimen name="card_margin">8dp</dimen>
+    <dimen name="card_elevation">6dp</dimen>
+    <dimen name="card_max_elevation">10dp</dimen>
+    <dimen name="card_content_padding">16dp</dimen>
+    <dimen name="filters_label">24sp</dimen>
+    <dimen name="bottom_sheet_header_height">60dp</dimen>
+    <dimen name="tv_show_search_bottom_sheet_height">250dp</dimen>
+    <dimen name="filters_label_margin_margin_start">16dp</dimen>
+    <dimen name="filters_label_margin_margin_top">24dp</dimen>
+    <dimen name="filters_margin">8dp</dimen>
+    <dimen name="filters_padding">8dp</dimen>
+    <dimen name="movie_search_bottom_sheet_height">300dp</dimen>
 </resources>

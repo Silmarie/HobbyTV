@@ -62,10 +62,8 @@ public class TvShow implements Parcelable {
         parcel.writeString(imagePath);
     }
 
-    public static final Creator CREATOR = new Creator() {
-        public TvShow createFromParcel(Parcel in) {
-            return new TvShow(in);
-        }
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public TvShow createFromParcel(Parcel in) { return new TvShow(in);}
 
         public TvShow[] newArray(int size) {
             return new TvShow[size];

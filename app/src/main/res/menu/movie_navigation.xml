@@ -4,16 +4,19 @@
     <item
         android:id="@+id/navigation_details"
         android:icon="@drawable/ic_movie_black_24dp"
+        android:name="@string/nav_title_details"
         android:title="@string/nav_title_details" />
 
     <item
         android:id="@+id/navigation_reviews"
         android:icon="@drawable/ic_rate_review_black_24dp"
+        android:name="@string/nav_title_reviews"
         android:title="@string/nav_title_reviews" />
 
     <item
         android:id="@+id/navigation_trailers"
         android:icon="@drawable/ic_play_arrow_black_24dp"
+        android:name="@string/nav_title_trailers"
         android:title="@string/nav_title_trailers" />
 
 </menu>

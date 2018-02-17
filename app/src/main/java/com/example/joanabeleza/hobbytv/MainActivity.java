@@ -1,16 +1,12 @@
 package com.example.joanabeleza.hobbytv;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
-import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -41,19 +37,6 @@ public class MainActivity extends AppCompatActivity implements MoviesFragment.On
         TabLayout tbl_pages= findViewById(R.id.tbl_pages);
         tbl_pages.setupWithViewPager(vp_pages);
 
-        FloatingActionButton searchFab = (FloatingActionButton) findViewById(R.id.search_fab);
-        searchFab.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Snackbar snackbar = Snackbar
-                        .make(v, "Search not implemented yet!", Snackbar.LENGTH_LONG);
-
-                View sbView = snackbar.getView();
-                TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-                textView.setTextColor(getResources().getColor(R.color.colorAccent));
-
-                snackbar.show();
-            }
-        });
     }
 
     @Override
@@ -61,8 +44,6 @@ public class MainActivity extends AppCompatActivity implements MoviesFragment.On
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
-
 
     @Override
     public void onListFragmentInteraction(Movie item) {

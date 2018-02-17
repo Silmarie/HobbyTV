@@ -7,12 +7,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/review_author"
-        android:textSize="25sp"
+        android:textSize="@dimen/sw600_item_review_title_size"
         android:textStyle="bold"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/review_text"
-        android:textSize="20sp"
+        android:textSize="@dimen/sw600_item_review_contentsize"
         android:textStyle="italic"/>
 </LinearLayout>

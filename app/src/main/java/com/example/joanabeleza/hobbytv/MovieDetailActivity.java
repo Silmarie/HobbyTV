@@ -8,7 +8,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.example.joanabeleza.hobbytv.Fragments.Movies.MovieDetailsFragment;
 import com.example.joanabeleza.hobbytv.Fragments.Movies.MovieReviewsFragment;
@@ -17,7 +16,6 @@ import com.example.joanabeleza.hobbytv.Models.Movie;
 
 public class MovieDetailActivity extends AppCompatActivity implements MovieDetailsFragment.OnFragmentInteractionListener, MovieReviewsFragment.OnFragmentInteractionListener, MovieTrailersFragment.OnFragmentInteractionListener {
 
-    private TextView mTextMessage;
     public Movie movie;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -51,7 +49,6 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
 
-        mTextMessage = findViewById(R.id.message);
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 

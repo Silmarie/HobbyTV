@@ -31,4 +31,19 @@
         android:stretchMode="columnWidth"
         tools:context="com.example.joanabeleza.hobbytv.Fragments.Main.MoviesFragment"
         tools:listitem="@layout/fragment_movie_item" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/search_movies_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:background="@color/colorPrimaryLight"
+        android:elevation="@dimen/cardview_default_elevation"
+        app:elevation="@dimen/cardview_default_elevation"
+        android:clickable="true"
+        android:focusable="true"
+        app:srcCompat="@drawable/ic_search_white_24dp" />
+
+    <include layout="@layout/search_bottom_sheet" />
 </android.support.design.widget.CoordinatorLayout>

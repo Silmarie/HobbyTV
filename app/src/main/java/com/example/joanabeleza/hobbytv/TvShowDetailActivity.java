@@ -8,7 +8,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.example.joanabeleza.hobbytv.Fragments.TvShows.TvShowDetailsFragment;
 import com.example.joanabeleza.hobbytv.Fragments.TvShows.TvShowOtherFragment;
@@ -19,7 +18,6 @@ import static com.example.joanabeleza.hobbytv.utilities.NetworkUtils.TV_SHOW;
 
 public class TvShowDetailActivity extends AppCompatActivity implements TvShowDetailsFragment.OnFragmentInteractionListener, TvShowOtherFragment.OnListFragmentInteractionListener, TvShowVideosFragment.OnFragmentInteractionListener {
 
-    private TextView mTextMessage;
     public TvShow tvShow;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -53,7 +51,6 @@ public class TvShowDetailActivity extends AppCompatActivity implements TvShowDet
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tv_show_detail);
 
-        mTextMessage = findViewById(R.id.message);
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
